@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crypto Exchange</string>
+    <string name="debug_image_logs">Image Logs (last 20)</string>
+    <string name="detail_date_launched">Date Launched</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_id">ID: %d</string>
+    <string name="detail_maker_fee">Maker Fee</string>
+    <string name="detail_market_pairs">Market Pairs</string>
+    <string name="detail_taker_fee">Taker Fee</string>
+    <string name="detail_visit_website">Visit Website</string>
+    <string name="detail_volume_usd">Spot Volume (USD)</string>
+    <string name="empty_state_message">There are no exchanges to display at this time.</string>
+    <string name="empty_state_title">No Exchanges</string>
+    <string name="error_debug_details">Error Details (Debug)</string>
+    <string name="error_decoding">Failed to parse server response.</string>
+    <string name="error_http">Server returned error %d. Please try again later.</string>
+    <string name="error_missing_api_key">API key is not configured. Please set CMC_API_KEY in local.properties.</string>
+    <string name="error_network_offline">No internet connection. Check your connection and try again.</string>
+    <string name="error_timeout">Request timed out. Please try again.</string>
+    <string name="error_title">Something went wrong</string>
+    <string name="error_unknown">An unexpected error occurred.</string>
+    <string name="loading_message">Loading…</string>
+    <string name="nav_title_exchanges">Exchanges</string>
+    <string name="not_available">N/A</string>
+    <string name="pairs_empty">No market pairs available.</string>
+    <string name="price_usd_label">Price (USD)</string>
+    <string name="retry_button">Try Again</string>
+    <string name="volume_24h_label">Vol 24h: %s</string>
+    <style name="Theme.CryptoExchangeAndroid" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>
