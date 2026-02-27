@@ -24,6 +24,7 @@ import br.com.cryptoexchange.ui.UiState
 import br.com.cryptoexchange.ui.components.*
 import kotlinx.coroutines.flow.StateFlow
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeListScreen(
     onExchangeClick: (Exchange) -> Unit,

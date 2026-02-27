@@ -26,6 +26,7 @@ import br.com.cryptoexchange.ui.components.*
 import java.text.DateFormat
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeDetailScreen(
     onNavigateUp: () -> Unit,
