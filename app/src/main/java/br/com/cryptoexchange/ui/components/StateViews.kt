@@ -23,6 +23,8 @@ import br.com.cryptoexchange.BuildConfig
 import br.com.cryptoexchange.R
 import br.com.cryptoexchange.data.AppError
 import br.com.cryptoexchange.data.CMCLogger
+import androidx.compose.ui.tooling.preview.Preview
+import br.com.cryptoexchange.ui.theme.CryptoExchangeTheme
 
 // ─── LoadingView ─────────────────────────────────────────────────────────────
 
@@ -224,6 +226,46 @@ private fun DebugRow(label: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
+        )
+    }
+}
+
+// ─── Previews ─────────────────────────────────────────────────────────────────
+
+@Preview(showBackground = true, name = "LoadingView")
+@Composable
+private fun LoadingViewPreview() {
+    CryptoExchangeTheme { LoadingView() }
+}
+
+@Preview(showBackground = true, name = "EmptyStateView")
+@Composable
+private fun EmptyStateViewPreview() {
+    CryptoExchangeTheme { EmptyStateView() }
+}
+
+@Preview(showBackground = true, name = "ErrorView – NetworkOffline")
+@Composable
+private fun ErrorViewPreview() {
+    CryptoExchangeTheme {
+        ErrorView(
+            error = AppError.NetworkOffline,
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "DebugApiSheet")
+@Composable
+private fun DebugApiSheetPreview() {
+    CryptoExchangeTheme {
+        DebugApiSheet(
+            requestId = "abc-123",
+            url = "https://pro-api.coinmarketcap.com/v1/exchange/listings/latest",
+            statusCode = 401,
+            technicalError = "HTTP 401 Unauthorized",
+            jsonSnippet = "{\"status\":{\"error_code\":1001}}",
+            onDismiss = {}
         )
     }
 }
