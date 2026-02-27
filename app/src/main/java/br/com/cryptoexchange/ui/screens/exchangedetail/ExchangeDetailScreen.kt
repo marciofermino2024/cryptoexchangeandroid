@@ -18,11 +18,15 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import br.com.cryptoexchange.R
+import br.com.cryptoexchange.data.AppError
 import br.com.cryptoexchange.domain.model.Exchange
 import br.com.cryptoexchange.domain.model.ExchangeMarketPair
+import br.com.cryptoexchange.domain.model.MarketCurrency
 import br.com.cryptoexchange.ui.UiState
 import br.com.cryptoexchange.ui.components.*
+import br.com.cryptoexchange.ui.theme.CryptoExchangeTheme
 import java.text.DateFormat
 import java.util.Locale
 
@@ -35,6 +39,25 @@ fun ExchangeDetailScreen(
     val pairsState by viewModel.pairsState.collectAsState()
     val isLoadingMorePairs by viewModel.isLoadingMorePairs.collectAsState()
 
+    ExchangeDetailContent(
+        detailState = detailState,
+        pairsState = pairsState,
+        isLoadingMorePairs = isLoadingMorePairs,
+        onNavigateUp = onNavigateUp,
+        onLoadMorePairs = viewModel::loadMorePairsIfNeeded,
+        onRetry = viewModel::retry
+    )
+}
+
+@Composable
+internal fun ExchangeDetailContent(
+    detailState: UiState<Exchange>,
+    pairsState: UiState<List<ExchangeMarketPair>>,
+    isLoadingMorePairs: Boolean,
+    onNavigateUp: () -> Unit,
+    onLoadMorePairs: (ExchangeMarketPair) -> Unit,
+    onRetry: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -56,13 +79,13 @@ fun ExchangeDetailScreen(
                 is UiState.Idle -> Unit
                 is UiState.Loading -> LoadingView()
                 is UiState.Empty -> EmptyStateView()
-                is UiState.Error -> ErrorView(error = s.error, onRetry = viewModel::retry)
+                is UiState.Error -> ErrorView(error = s.error, onRetry = onRetry)
                 is UiState.Success -> DetailContent(
                     exchange = s.data,
                     pairsState = pairsState,
                     isLoadingMorePairs = isLoadingMorePairs,
-                    onLoadMorePairs = viewModel::loadMorePairsIfNeeded,
-                    onRetryPairs = viewModel::retry
+                    onLoadMorePairs = onLoadMorePairs,
+                    onRetryPairs = onRetry
                 )
             }
         }
@@ -257,6 +280,87 @@ private fun InfoRow(title: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+// ─── Previews ─────────────────────────────────────────────────────────────────
+
+private val previewExchange = Exchange(
+    id = 270,
+    name = "Binance",
+    slug = "binance",
+    logoUrl = null,
+    description = "The world's largest cryptocurrency exchange by trading volume.",
+    websiteUrl = "https://www.binance.com",
+    dateLaunched = null,
+    spotVolumeUsd = 12_345_678_901.23,
+    makerFee = 0.001,
+    takerFee = 0.001,
+    weeklyVisits = 5_000_000,
+    spot = 500
+)
+
+private val previewPairs = listOf(
+    ExchangeMarketPair(
+        id = "BTC-USDT-270",
+        marketPairBase = MarketCurrency(1, "BTC", "BTC", "cryptocurrency"),
+        marketPairQuote = MarketCurrency(825, "USDT", "USDT", "token"),
+        priceUsd = 65_000.0,
+        volumeUsd24h = 500_000_000.0,
+        lastUpdated = null
+    ),
+    ExchangeMarketPair(
+        id = "ETH-USDT-270",
+        marketPairBase = MarketCurrency(1027, "ETH", "ETH", "cryptocurrency"),
+        marketPairQuote = MarketCurrency(825, "USDT", "USDT", "token"),
+        priceUsd = 3_500.0,
+        volumeUsd24h = 200_000_000.0,
+        lastUpdated = null
+    )
+)
+
+@Preview(showBackground = true, name = "ExchangeDetail – Loading")
+@Composable
+private fun ExchangeDetailPreviewLoading() {
+    CryptoExchangeTheme {
+        ExchangeDetailContent(
+            detailState = UiState.Loading,
+            pairsState = UiState.Loading,
+            isLoadingMorePairs = false,
+            onNavigateUp = {},
+            onLoadMorePairs = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeDetail – Success")
+@Composable
+private fun ExchangeDetailPreviewSuccess() {
+    CryptoExchangeTheme {
+        ExchangeDetailContent(
+            detailState = UiState.Success(previewExchange),
+            pairsState = UiState.Success(previewPairs),
+            isLoadingMorePairs = false,
+            onNavigateUp = {},
+            onLoadMorePairs = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeDetail – Error")
+@Composable
+private fun ExchangeDetailPreviewError() {
+    CryptoExchangeTheme {
+        ExchangeDetailContent(
+            detailState = UiState.Error(AppError.NetworkOffline),
+            pairsState = UiState.Idle,
+            isLoadingMorePairs = false,
+            onNavigateUp = {},
+            onLoadMorePairs = {},
+            onRetry = {}
         )
     }
 }
