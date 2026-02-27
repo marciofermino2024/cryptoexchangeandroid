@@ -24,6 +24,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import java.text.DateFormat
 import java.util.Locale
+import androidx.compose.ui.tooling.preview.Preview
+import br.com.cryptoexchange.ui.theme.CryptoExchangeTheme
 
 @Composable
 fun ExchangeRowItem(
@@ -151,4 +153,37 @@ fun formatDate(exchange: Exchange): String {
     val date = exchange.dateLaunched ?: return stringResource(R.string.not_available)
     val fmt = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
     return fmt.format(date)
+}
+
+// ─── Previews ─────────────────────────────────────────────────────────────────
+
+@Preview(showBackground = true, name = "ExchangeRowItem")
+@Composable
+private fun ExchangeRowItemPreview() {
+    CryptoExchangeTheme {
+        ExchangeRowItem(
+            exchange = Exchange(
+                id = 270,
+                name = "Binance",
+                slug = "binance",
+                logoUrl = null,
+                description = null,
+                websiteUrl = null,
+                dateLaunched = null,
+                spotVolumeUsd = 12_345_678_901.23,
+                makerFee = 0.001,
+                takerFee = 0.001,
+                weeklyVisits = 5_000_000,
+                spot = 500
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeLogo – Placeholder")
+@Composable
+private fun ExchangeLogoPreview() {
+    CryptoExchangeTheme {
+        ExchangeLogo(logoUrl = null, sizeDp = 64)
+    }
 }
