@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ic_launcher_background">#FFFFFF</color>
     <string name="app_name">Crypto Exchange</string>
     <string name="debug_image_logs">Image Logs (last 20)</string>
     <string name="detail_date_launched">Date Launched</string>
