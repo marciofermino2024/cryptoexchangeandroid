@@ -1,0 +1,9 @@
+## Copy this file to local.properties and fill in your values.
+## local.properties is NOT committed to version control.
+
+# Android SDK location (adjust to your local path)
+sdk.dir=/path/to/your/Android/Sdk
+
+# CoinMarketCap PRO API key
+# Get yours at https://pro.coinmarketcap.com/
+CMC_API_KEY=YOUR_COINMARKETCAP_API_KEY_HERE
