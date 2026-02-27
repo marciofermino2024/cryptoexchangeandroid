@@ -9,6 +9,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.cryptoexchange.R
 import br.com.cryptoexchange.domain.model.ExchangeMarketPair
+import br.com.cryptoexchange.domain.model.MarketCurrency
+import androidx.compose.ui.tooling.preview.Preview
+import br.com.cryptoexchange.ui.theme.CryptoExchangeTheme
 
 @Composable
 fun MarketPairRowItem(pair: ExchangeMarketPair, modifier: Modifier = Modifier) {
@@ -55,4 +58,23 @@ private fun formatPairVolume(volume: Double?): String {
     if (volume == null) return "N/A"
     val millions = volume / 1_000_000.0
     return "$%.2fM".format(millions)
+}
+
+// ─── Previews ─────────────────────────────────────────────────────────────────
+
+@Preview(showBackground = true, name = "MarketPairRowItem")
+@Composable
+private fun MarketPairRowItemPreview() {
+    CryptoExchangeTheme {
+        MarketPairRowItem(
+            pair = ExchangeMarketPair(
+                id = "BTC-USDT-270",
+                marketPairBase = MarketCurrency(1, "BTC", "BTC", "cryptocurrency"),
+                marketPairQuote = MarketCurrency(825, "USDT", "USDT", "token"),
+                priceUsd = 65_000.0,
+                volumeUsd24h = 500_000_000.0,
+                lastUpdated = null
+            )
+        )
+    }
 }
