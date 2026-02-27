@@ -22,9 +22,7 @@ import br.com.cryptoexchange.data.CMCLogger
 import br.com.cryptoexchange.domain.model.Exchange
 import br.com.cryptoexchange.ui.UiState
 import br.com.cryptoexchange.ui.components.*
-import kotlinx.coroutines.flow.StateFlow
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExchangeListScreen(
     onExchangeClick: (Exchange) -> Unit,
@@ -81,7 +79,6 @@ fun ExchangeListScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ExchangeList(
     exchanges: List<Exchange>,
@@ -129,7 +126,6 @@ private fun ExchangeList(
 
 // ─── Image Debug Sheet (DEBUG only) ─────────────────────────────────────────
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ImageDebugSheet(onDismiss: () -> Unit) {
     val logs = remember { CMCLogger().imageLogs } // shown from logger singleton via Hilt if available
