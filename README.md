@@ -62,6 +62,14 @@ CMC_API_KEY=YOUR_COINMARKETCAP_API_KEY_HERE
 
 > ⚠️ `local.properties` is in `.gitignore`. Never commit your API key.
 
+The API key is resolved in this order at build time:
+1. `local.properties` → `CMC_API_KEY`
+2. Gradle property → `-PCMC_API_KEY=...`
+3. Environment variable → `CMC_API_KEY` (useful for CI/CD pipelines)
+
+> ⚠️ If no key is found, `BuildConfig.CMC_API_KEY` is an empty string and the app will throw  
+> `IllegalStateException: CMC_API_KEY is not configured` at the first API call.
+
 ### 3. Open in Android Studio
 1. File → Open → select the `CryptoExchangeAndroid/` folder
 2. Wait for Gradle sync to finish

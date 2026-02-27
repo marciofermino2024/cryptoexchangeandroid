@@ -167,7 +167,6 @@ fun ErrorView(
 
 // ─── DebugApiSheet ───────────────────────────────────────────────────────────
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DebugApiSheet(
     requestId: String,

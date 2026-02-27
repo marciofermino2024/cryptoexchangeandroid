@@ -1,53 +1,17 @@
-# Built application files
-*.apk
-*.aar
-*.ap_
-*.aab
-
-# Files for the ART/Dalvik VM
-*.dex
-
-# Java class files
-*.class
-
-# Generated files
-bin/
-gen/
-out/
-release/
-build/
-
-# Gradle files
-.gradle/
-.gradle
+# Local configuration — contains SDK path and API keys, must NOT be committed
 local.properties
 
-# Log Files
-*.log
+# Gradle build outputs
+.gradle/
+build/
+app/build/
 
-# Android Studio Navigation editor temp files
-.navigation/
-
-# Android Studio captures folder
-captures/
-
-# IntelliJ
-*.iml
+# Android Studio / IntelliJ project files
 .idea/
+*.iml
+*.ipr
+*.iws
 
-# Keystore files
-*.jks
-*.keystore
-
-# External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
-.cxx/
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Signing related
-*.key
-
-# Version control
-vcs.xml
+# OS-generated files
+.DS_Store
+Thumbs.db
