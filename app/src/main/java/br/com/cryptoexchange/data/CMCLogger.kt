@@ -1,6 +1,7 @@
 package br.com.cryptoexchange.data
 
 import android.util.Log
+import br.com.cryptoexchange.BuildConfig
 import java.util.Date
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject

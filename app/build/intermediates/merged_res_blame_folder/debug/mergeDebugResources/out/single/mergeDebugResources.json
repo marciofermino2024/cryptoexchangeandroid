@@ -1,6 +1,18 @@
 [
     {
-        "merged": "br.com.cryptoexchange.app-debug-58:/xml_network_security_config.xml.flat",
-        "source": "br.com.cryptoexchange.app-main-60:/xml/network_security_config.xml"
+        "merged": "br.com.cryptoexchange.app-debug-60:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "br.com.cryptoexchange.app-main-62:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "br.com.cryptoexchange.app-debug-60:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "br.com.cryptoexchange.app-main-62:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "br.com.cryptoexchange.app-debug-60:/xml_network_security_config.xml.flat",
+        "source": "br.com.cryptoexchange.app-main-62:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "br.com.cryptoexchange.app-debug-60:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "br.com.cryptoexchange.app-main-62:/mipmap-anydpi-v26/ic_launcher.xml"
     }
 ]
