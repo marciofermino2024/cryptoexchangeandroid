@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "br.com.cryptoexchange.app-mergeDebugResources-56:/values-v21/values-v21.xml",
+            "outputFile": "br.com.cryptoexchange.app-mergeDebugResources-58:/values-v21/values-v21.xml",
             "map": [
                 {
                     "source": "/Users/marcio/.gradle/caches/transforms-4/5e310713b96126cfd0d94da352e68989/transformed/core-1.13.1/res/values-v21/values-v21.xml",
