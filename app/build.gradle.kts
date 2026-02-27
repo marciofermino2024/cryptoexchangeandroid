@@ -1,9 +1,23 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+}
+
+// Load local.properties (not read automatically by Gradle's findProperty)
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        try {
+            file.inputStream().use { load(it) }
+        } catch (e: Exception) {
+            logger.warn("Could not read local.properties: ${e.message}")
+        }
+    }
 }
 
 android {
@@ -19,8 +33,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // API key injected from local.properties via BuildConfig
-        val cmcApiKey = project.findProperty("CMC_API_KEY")?.toString() ?: ""
+        // API key resolution order: local.properties → Gradle property → environment variable
+        val cmcApiKey = localProperties.getProperty("CMC_API_KEY")
+            ?: project.findProperty("CMC_API_KEY")?.toString()
+            ?: System.getenv("CMC_API_KEY")
+            ?: ""
         buildConfigField("String", "CMC_API_KEY", "\"$cmcApiKey\"")
     }
 
