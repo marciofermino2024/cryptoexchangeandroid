@@ -22,6 +22,9 @@ import br.com.cryptoexchange.data.CMCLogger
 import br.com.cryptoexchange.domain.model.Exchange
 import br.com.cryptoexchange.ui.UiState
 import br.com.cryptoexchange.ui.components.*
+import androidx.compose.ui.tooling.preview.Preview
+import br.com.cryptoexchange.data.AppError
+import br.com.cryptoexchange.ui.theme.CryptoExchangeTheme
 
 @Composable
 fun ExchangeListScreen(
@@ -32,14 +35,41 @@ fun ExchangeListScreen(
     val isLoadingMore by viewModel.isLoadingMore.collectAsState()
     var showImageDebug by remember { mutableStateOf(false) }
 
+    ExchangeListContent(
+        state = state,
+        isLoadingMore = isLoadingMore,
+        onExchangeClick = onExchangeClick,
+        onRetry = viewModel::retry,
+        onLoadMore = viewModel::loadMoreIfNeeded,
+        onRefresh = viewModel::loadInitial,
+        showDebugButton = BuildConfig.DEBUG,
+        onDebugClick = { showImageDebug = true }
+    )
+
+    if (showImageDebug && BuildConfig.DEBUG) {
+        ImageDebugSheet(onDismiss = { showImageDebug = false })
+    }
+}
+
+@Composable
+internal fun ExchangeListContent(
+    state: UiState<List<Exchange>>,
+    isLoadingMore: Boolean,
+    onExchangeClick: (Exchange) -> Unit,
+    onRetry: () -> Unit,
+    onLoadMore: (Exchange) -> Unit,
+    onRefresh: () -> Unit,
+    showDebugButton: Boolean = false,
+    onDebugClick: () -> Unit = {}
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.nav_title_exchanges)) },
                 actions = {
-                    if (BuildConfig.DEBUG) {
+                    if (showDebugButton) {
                         IconButton(
-                            onClick = { showImageDebug = true },
+                            onClick = onDebugClick,
                             modifier = Modifier.semantics { contentDescription = "debug_img_button" }
                         ) {
                             Icon(Icons.Default.BugReport, contentDescription = "Debug Image Logs")
@@ -61,21 +91,17 @@ fun ExchangeListScreen(
                 is UiState.Empty -> EmptyStateView()
                 is UiState.Error -> ErrorView(
                     error = s.error,
-                    onRetry = viewModel::retry
+                    onRetry = onRetry
                 )
                 is UiState.Success -> ExchangeList(
                     exchanges = s.data,
                     isLoadingMore = isLoadingMore,
                     onExchangeClick = onExchangeClick,
-                    onLoadMore = viewModel::loadMoreIfNeeded,
-                    onRefresh = viewModel::loadInitial
+                    onLoadMore = onLoadMore,
+                    onRefresh = onRefresh
                 )
             }
         }
-    }
-
-    if (showImageDebug && BuildConfig.DEBUG) {
-        ImageDebugSheet(onDismiss = { showImageDebug = false })
     }
 }
 
@@ -178,7 +204,7 @@ private fun ImageDebugSheet(onDismiss: () -> Unit) {
                             text = "${log.statusCode ?: "?"} / ${"%.0f".format(log.latencyMs)}ms",
                             style = MaterialTheme.typography.labelSmall,
                             color = if (log.statusCode == 200) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.error
+                            else MaterialTheme.colorScheme.error
                         )
                     }
                     HorizontalDivider()
@@ -186,5 +212,82 @@ private fun ImageDebugSheet(onDismiss: () -> Unit) {
             }
             Spacer(Modifier.height(32.dp))
         }
+    }
+}
+
+// ─── Previews ─────────────────────────────────────────────────────────────────
+
+private val previewExchanges = listOf(
+    Exchange(
+        id = 270, name = "Binance", slug = "binance",
+        logoUrl = null, description = null, websiteUrl = null,
+        dateLaunched = null, spotVolumeUsd = 12_345_678_901.23,
+        makerFee = 0.001, takerFee = 0.001, weeklyVisits = 5_000_000, spot = 500
+    ),
+    Exchange(
+        id = 294, name = "Coinbase Exchange", slug = "coinbase",
+        logoUrl = null, description = null, websiteUrl = null,
+        dateLaunched = null, spotVolumeUsd = 5_000_000_000.0,
+        makerFee = 0.004, takerFee = 0.006, weeklyVisits = 2_000_000, spot = 300
+    )
+)
+
+@Preview(showBackground = true, name = "ExchangeList – Loading")
+@Composable
+private fun ExchangeListPreviewLoading() {
+    CryptoExchangeTheme {
+        ExchangeListContent(
+            state = UiState.Loading,
+            isLoadingMore = false,
+            onExchangeClick = {},
+            onRetry = {},
+            onLoadMore = {},
+            onRefresh = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeList – Success")
+@Composable
+private fun ExchangeListPreviewSuccess() {
+    CryptoExchangeTheme {
+        ExchangeListContent(
+            state = UiState.Success(previewExchanges),
+            isLoadingMore = false,
+            onExchangeClick = {},
+            onRetry = {},
+            onLoadMore = {},
+            onRefresh = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeList – Error")
+@Composable
+private fun ExchangeListPreviewError() {
+    CryptoExchangeTheme {
+        ExchangeListContent(
+            state = UiState.Error(AppError.NetworkOffline),
+            isLoadingMore = false,
+            onExchangeClick = {},
+            onRetry = {},
+            onLoadMore = {},
+            onRefresh = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "ExchangeList – Empty")
+@Composable
+private fun ExchangeListPreviewEmpty() {
+    CryptoExchangeTheme {
+        ExchangeListContent(
+            state = UiState.Empty,
+            isLoadingMore = false,
+            onExchangeClick = {},
+            onRetry = {},
+            onLoadMore = {},
+            onRefresh = {}
+        )
     }
 }
