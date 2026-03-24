@@ -1,5 +1,5 @@
 # Local configuration — contains SDK path and API keys, must NOT be committed
-local.properties
+
 
 # Gradle build outputs
 .gradle/

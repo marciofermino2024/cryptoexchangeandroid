@@ -8,17 +8,19 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-// Load local.properties (not read automatically by Gradle's findProperty)
 val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) {
-        try {
-            file.inputStream().use { load(it) }
-        } catch (e: Exception) {
-            logger.warn("Could not read local.properties: ${e.message}")
-        }
+    val localFile = rootProject.file("local.properties")
+    if (localFile.exists()) {
+        localFile.inputStream().use(::load)
     }
 }
+
+val cmcApiKey = (
+        localProperties.getProperty("CMC_API_KEY")
+            ?: project.findProperty("CMC_API_KEY")?.toString()
+            ?: System.getenv("CMC_API_KEY")
+            ?: ""
+        ).trim()
 
 android {
     namespace = "br.com.cryptoexchange"
@@ -33,12 +35,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // API key resolution order: local.properties → Gradle property → environment variable
-        val cmcApiKey = localProperties.getProperty("CMC_API_KEY")
-            ?: project.findProperty("CMC_API_KEY")?.toString()
-            ?: System.getenv("CMC_API_KEY")
-            ?: ""
-        buildConfigField("String", "CMC_API_KEY", "\"$cmcApiKey\"")
+        buildConfigField(
+            "String",
+            "CMC_API_KEY",
+            "\"${cmcApiKey.replace("\\", "\\\\").replace("\"", "\\\"")}\""
+        )
     }
 
     buildTypes {
@@ -84,25 +85,20 @@ dependencies {
     implementation(libs.androidx.material.icons)
     implementation(libs.androidx.navigation.compose)
 
-    // Hilt DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
-    // Networking
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.gson)
 
-    // Image loading
     implementation(libs.coil.compose)
 
-    // Coroutines
     implementation(libs.coroutines.android)
 
-    // Tests
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
