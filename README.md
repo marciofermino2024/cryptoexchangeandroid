@@ -1,6 +1,6 @@
 # CryptoExchangeAndroid
 
-Android port of the CryptoExchange iOS SwiftUI project.  
+CryptoExchange Android project.  
 Stack: **Kotlin · Jetpack Compose · MVVM + Clean Architecture · Hilt · Retrofit · Coil · Coroutines/Flow**
 
 
