@@ -3,41 +3,6 @@
 Android port of the CryptoExchange iOS SwiftUI project.  
 Stack: **Kotlin · Jetpack Compose · MVVM + Clean Architecture · Hilt · Retrofit · Coil · Coroutines/Flow**
 
----
-
-## Migration Map (iOS → Android)
-
-| iOS (SwiftUI) | Android (Compose) |
-|---|---|
-| `ExchangeListScreen` | `ExchangeListScreen.kt` |
-| `ExchangeDetailScreen` | `ExchangeDetailScreen.kt` |
-| `ExchangeListViewModel` (@MainActor) | `ExchangeListViewModel.kt` (HiltViewModel + StateFlow) |
-| `ExchangeDetailViewModel` | `ExchangeDetailViewModel.kt` |
-| `UiState<T>` enum | `UiState<T>` sealed class |
-| `GetExchangeListUseCase` | `GetExchangeListUseCase.kt` |
-| `GetExchangeDetailUseCase` | `GetExchangeDetailUseCase.kt` |
-| `GetExchangeMarketPairsUseCase` | `GetExchangeMarketPairsUseCase.kt` |
-| `ExchangeRepository` (protocol) | `ExchangeRepository.kt` (interface) |
-| `ExchangeRepositoryImpl` (class) | `ExchangeRepositoryImpl.kt` |
-| `Exchange` struct | `Exchange.kt` data class |
-| `ExchangeMarketPair` struct | `ExchangeMarketPair.kt` data class |
-| `ExchangeInfoDTO`, `ExchangeMapDTO`, `ExchangeMarketPairsDTO` | `Dtos.kt` (single file) |
-| `ExchangeMapper`, `MarketPairMapper` | `ExchangeMapper.kt` |
-| `CMCLogger` | `CMCLogger.kt` |
-| `AppError` enum | `AppError.kt` sealed class |
-| `CachedLogoView` (NSCache + actor) | `ExchangeLogo` composable (Coil = disk+memory cache) |
-| `DependencyContainer` (manual DI) | Hilt modules (`NetworkModule`, `RepositoryModule`) |
-| `Secrets.xcconfig` | `local.properties` |
-| `AppConfiguration.cmcAPIKey` | `BuildConfig.CMC_API_KEY` |
-| `ExchangeRowView` | `ExchangeRowItem.kt` |
-| `MarketPairRowView` | `MarketPairRowItem.kt` |
-| `ErrorView` + `DebugSheetView` | `StateViews.kt` → `ErrorView` + `DebugApiSheet` |
-| `LoadingView` | `LoadingView` in `StateViews.kt` |
-| `EmptyStateView` | `EmptyStateView` in `StateViews.kt` |
-| `ImageDebugSheetView` | Inline in `ExchangeListScreen.kt` (DEBUG only) |
-| `PreviewFixtures.swift` | `FakeExchangeRepository.kt` (test) |
-
----
 
 ## Setup
 
